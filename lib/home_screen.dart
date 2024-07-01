@@ -1,7 +1,8 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+import 'login_screen.dart';
+import 'register_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -20,7 +21,6 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: const Text('My Fitness App'),
         backgroundColor: Colors.blue,
-        
       ),
       body: Center(
         child: isLoggedIn ? _buildUserGreeting() : _buildGuestGreeting(),
@@ -53,34 +53,20 @@ class _HomeScreenState extends State<HomeScreen> {
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
         const SizedBox(height: 20),
         ElevatedButton(
-            onPressed: () async {
-              try {
-                final GoogleSignInAccount? googleUser =
-                    await GoogleSignIn().signIn();
-                if (googleUser != null) {
-                  final GoogleSignInAuthentication googleAuth =
-                      await googleUser.authentication;
-                  final OAuthCredential credential =
-                      GoogleAuthProvider.credential(
-                    accessToken: googleAuth.accessToken,
-                    idToken: googleAuth.idToken,
-                  );
-                  await FirebaseAuth.instance.signInWithCredential(credential);
-                  // Optionally update isLoggedIn state and navigate
-                  setState(() {
-                    isLoggedIn = true;
-                  });
-                } else {
-                  print("Google sign-in aborted by user");
-                }
-              } catch (e) {
-                print("Error during Google Sign-In: $e");
-              }
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => LoginScreen()),
+              );
             },
             child: const Text('Sign in with Google')),
         ElevatedButton(
           onPressed: () {
             // Navigate to your sign up page
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => RegisterScreen()),
+            );
           },
           child: const Text('Sign Up'),
         ),
