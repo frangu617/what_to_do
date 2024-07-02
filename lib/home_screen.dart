@@ -1,9 +1,7 @@
-// ignore_for_file: library_private_types_in_public_api
-
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'login_screen.dart';
 import 'register_screen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -13,7 +11,25 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  bool isLoggedIn = false; // You will replace this with your auth logic
+  User? _user;
+
+  @override
+  void initState() {
+    super.initState();
+    _checkUserStatus();
+  }
+
+  void _checkUserStatus() {
+    // Get the current user
+    _user = FirebaseAuth.instance.currentUser;
+
+    // Listen to auth state changes
+    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      setState(() {
+        _user = user;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Colors.blue,
       ),
       body: Center(
-        child: isLoggedIn ? _buildUserGreeting() : _buildGuestGreeting(),
+        child: _user != null ? _buildUserGreeting() : _buildGuestGreeting(),
       ),
     );
   }
@@ -32,8 +48,8 @@ class _HomeScreenState extends State<HomeScreen> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        const Text('Welcome back, User!',
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+        Text('Welcome back, ${_user!.email}!',
+            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
         const SizedBox(height: 20),
         ElevatedButton(
           onPressed: () {
@@ -56,16 +72,15 @@ class _HomeScreenState extends State<HomeScreen> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => LoginScreen()),
+                MaterialPageRoute(builder: (context) => const LoginScreen()),
               );
             },
             child: const Text('Sign in with Google')),
         ElevatedButton(
           onPressed: () {
-            // Navigate to your sign up page
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => RegisterScreen()),
+              MaterialPageRoute(builder: (context) => const RegisterScreen()),
             );
           },
           child: const Text('Sign Up'),
