@@ -74,6 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
           },
           child: const Text('Sign Out'),
         ),
+        
       ],
     );
   }
