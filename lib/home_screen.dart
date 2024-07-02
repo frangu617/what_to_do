@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:what_to_do/my_workouts.dart';
 import 'login_screen.dart';
 import 'register_screen.dart';
 
@@ -35,6 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false, // Remove the back button
         title: const Text('My Fitness App'),
         backgroundColor: Colors.blue,
       ),
@@ -52,10 +54,25 @@ class _HomeScreenState extends State<HomeScreen> {
             style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
         const SizedBox(height: 20),
         ElevatedButton(
-          onPressed: () {
+          onPressed: ()  {
             // Navigate to your workout tracking pages or other parts of the app
+            Navigator.push(
+            context,
+            MaterialPageRoute(builder:(context) => const MyWorkouts()),
+            );
           },
           child: const Text('Go to My Workouts'),
+        ),
+        const SizedBox(height: 20),
+        ElevatedButton(
+          onPressed: () async {
+            await FirebaseAuth.instance.signOut();
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const LoginScreen()),
+            );
+          },
+          child: const Text('Sign Out'),
         ),
       ],
     );
@@ -75,7 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 MaterialPageRoute(builder: (context) => const LoginScreen()),
               );
             },
-            child: const Text('Sign in with Google')),
+            child: const Text('Sign in')),
         ElevatedButton(
           onPressed: () {
             Navigator.push(

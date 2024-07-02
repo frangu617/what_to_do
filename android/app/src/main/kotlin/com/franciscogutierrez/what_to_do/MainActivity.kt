@@ -1,4 +1,4 @@
-package com.franciscogutierrez.what_to_do
+package com.myfitnessapp.app
 
 import io.flutter.embedding.android.FlutterActivity
 
