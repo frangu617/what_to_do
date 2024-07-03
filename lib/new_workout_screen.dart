@@ -14,12 +14,15 @@ class NewWorkoutScreen extends StatefulWidget {
 class _NewWorkoutScreenState extends State<NewWorkoutScreen> {
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
+    return Scaffold(
+     
+        appBar: AppBar(
+          title: const Text("New Workout"),
+          backgroundColor: Colors.blue,
+        ),
+        body: const Center(
           child: Text("New Workout"),
         ),
-      ),
-    );
+      );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'home_screen.dart';
+import 'new_workout_screen.dart';
 
 class MyWorkouts extends StatelessWidget {
   const MyWorkouts({super.key});
@@ -17,9 +18,9 @@ class MyWorkouts extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.pushReplacement(
+          Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const ()),
+            MaterialPageRoute(builder: (context) => const NewWorkoutScreen()),
           );
         },
         child: const Icon(Icons.logout),
